@@ -8,7 +8,7 @@ define('APP_ROOT_PATH', dirname(__DIR__));
 define('ROOT_PATH', dirname(dirname(__DIR__)));
 const VIEWS_PATH = APP_ROOT_PATH . DIRECTORY_SEPARATOR . 'views';
 const PUBLIC_PATH = ROOT_PATH . DIRECTORY_SEPARATOR . 'public';
-const PASSWORD_ALGORITHM = PASSWORD_BCRYPT;
+const PASSWORD_ALGORITHM = PASSWORD_DEFAULT;
 const VALIDATION_RULE_TYPES = [//todo move it to core config, not app
     RequestValidator::RULE_REQUIRED => Core\Http\Validation\Rule\RequiredRule::class,
     RequestValidator::RULE_EMAIL => Core\Http\Validation\Rule\EmailRule::class,

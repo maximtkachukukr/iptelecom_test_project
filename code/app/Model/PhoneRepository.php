@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Model;
 
 use App\Model\Phone\Phone;
+use App\Model\Phone\PhoneFactory;
 use App\Model\Phone\ResourceModel\Phone as PhoneResourceModel;
+use Exception;
 
 /**
  * todo Extract interface
@@ -13,10 +15,12 @@ use App\Model\Phone\ResourceModel\Phone as PhoneResourceModel;
 readonly class PhoneRepository
 {
     private PhoneResourceModel $resourceModel;
+    private PhoneFactory $phoneFactory;
 
     public function __construct()
     {
         $this->resourceModel = new PhoneResourceModel();
+        $this->phoneFactory = new PhoneFactory();
     }
 
     public function getUserList(int $userId, array $ordering): array
@@ -26,6 +30,21 @@ readonly class PhoneRepository
          * this function must return collection of dataModel
          */
         return $this->resourceModel->getAllByFilters(['user_id' => $userId], $ordering);
+    }
+
+    /**
+     * @param int $id
+     * @return Phone
+     * @throws Exception
+     */
+    public function getById(int $id): Phone
+    {
+        $phone = $this->phoneFactory->create();
+        $this->resourceModel->loadDataModel($phone, 'id', $id);
+        if (!$phone->getId()) {
+            throw new Exception('Not found');
+        }
+        return $phone;
     }
 
     /**
